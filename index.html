@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--! Style css-->
+    <link rel="stylesheet" href="./estilos/estilo.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 id="titulo-principal">STOCK-EAME</h1>
+            <span id="alertas-estado">BIENVENIDO</span>
+            <button><a href="#seccion-1">Volver al inicio</a></button>
+        </div>
+    </header>
+
+    <section id="seccion-1" class="secciones hero">
+        <a href="#seccion-2" class="ir-a-seccion">
+            <div>
+                <img src="" alt="">
+                <h3>Editar Stock</h3>
+            </div>
+        </a>
+
+        <a href="#seccion-3" class="ir-a-seccion">
+            <div>
+                <img src="" alt="">
+                <h3>Vender Productos</h3>
+            </div>
+        </a>
+
+        <a href="#seccion-4" class="ir-a-seccion">
+            <div>
+                <img src="" alt="">
+                <h3>Crear C/C</h3>
+            </div>
+        </a>
+    </section>
+
+    <section id="seccion-2" class="secciones">
+        <div class="s2-izq">
+            <h2>Editar Stock</h2>
+            <button id="btnAgregar">Agregar stock</button>
+            <button id="btnEliminar">Eliminar stock</button>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s2-der">
+            <h2>Stock Actual</h2>
+            <table id="tablaStock">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de datos iniciales -->
+                    <tr>
+                        <td>001</td>
+                        <td>Producto A</td>
+                        <td>50</td>
+                        <td>$100</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Producto B</td>
+                        <td>30</td>
+                        <td>$150</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="seccion-3" class="secciones">
+        <div class="s3-izq">
+            <h2>Total diario</h2>
+            <table>
+                <tr>
+                    <td>Efectivo:</td>
+                    <td>$0</td>
+                </tr>
+                <tr>
+                    <td>Transferencia:</td>
+                    <td>$0</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Panel central -->
+        <div class="s3-centro">
+            <div class="productos-grid">
+                <!-- Producto ejemplo -->
+                <div class="producto">
+                    <img src="imagenes/img1.jpg" alt="Prod 1">
+                    <p>Producto 1</p>
+                </div>
+                <div class="producto">
+                    <img src="imagenes/img2.jpg" alt="Prod 2">
+                    <p>Producto 2</p>
+                </div>
+                <div class="producto">
+                    <img src="imagenes/img3.jpg" alt="Prod 3">
+                    <p>Producto 3</p>
+                </div>
+                <div class="producto">
+                    <img src="imagenes/img4.jpg" alt="Prod 4">
+                    <p>Producto 4</p>
+                </div>
+                <div class="producto">
+                    <img src="imagenes/img5.jpg" alt="Prod 5">
+                    <p>Producto 5</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s3-der">
+            <h3>Carrito</h3>
+            <div class="carrito">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se llenará dinámicamente -->
+                        <tr>
+                            <td>Prod 1</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-carrito">Total: $0</div>
+            <button>Eliminar</button>
+            <button>Cobrar</button>
+        </div>
+
+    </section>
+
+    <section id="seccion-4" class="secciones">
+        <div class="s4-izq">
+            <h2>Cuentas Corrientes</h2>
+            <button>Agregar</button>
+            <button>Eliminar</button>
+            <button>Cobrar</button>
+            <button>Editar</button>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s4-der">
+            <h2>Listado de cuentas</h2>
+            <div class="cuentas-container">
+                <!-- Ejemplo de cuenta corriente -->
+                <div class="cuenta">
+                    <h3>Juan Pérez</h3>
+                    <div class="productos">
+                        <p>Producto A - 2 unidades</p>
+                        <p>Producto B - 1 unidad</p>
+                    </div>
+                    <div class="total">Total: $300</div>
+                </div>
+
+                <div class="cuenta">
+                    <h3>María Gómez</h3>
+                    <div class="productos">
+                        <p>Producto X - 5 unidades</p>
+                        <p>Producto Y - 2 unidades</p>
+                    </div>
+                    <div class="total">Total: $750</div>
+                </div>
+
+                <div class="cuenta">
+                    <h3>Carlos Díaz</h3>
+                    <div class="productos">
+                        <p>Producto C - 1 unidad</p>
+                        <p>Producto D - 3 unidades</p>
+                    </div>
+                    <div class="total">Total: $420</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--<script src="./JS/main.js" defer></script>-->
+</body>
+
+</html>
