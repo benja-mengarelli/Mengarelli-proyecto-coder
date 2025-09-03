@@ -5,11 +5,64 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
+
 .secciones {
     height: 100vh;
-    border: 5px dashed rgb(240, 22, 22);
+    padding-top: 20px;
 }
+
+/*! POP UPS */
+.esconder-pop-up {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Caja del popup */
+.popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 300px;
+}
+
+.popup h2 {
+    margin-top: 0;
+}
+
+.close-btn {
+    cursor: pointer;
+    float: right;
+    font-size: 18px;
+    border: none;
+    background: none;
+}
+
+.editable tr:hover {
+    animation: expandir 0.5s ease-in infinite alternate;
+}
+
+@keyframes expandir {
+    from{
+        color: black;
+        transform: scale(1);
+    }
+    to {
+        color: red;
+        transform: scale(1.05);
+    }
+    
+}
+
+
 
 
 

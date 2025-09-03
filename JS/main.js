@@ -1,204 +1,415 @@
-//! FUNCIONES
+//! Crear tabla pagina Stock
+function crearTabla(tbody) {
+    //LIMPIAR LA TABLA
+    tbody.innerHTML = "";
+    Stock.forEach((prod) => {
+        const fila = document.createElement("tr");
+        const tdCod = document.createElement("td");
+        const tdNom = document.createElement("td");
+        const tdPrc = document.createElement("td");
+        const tdCant = document.createElement("td");
+        const tdimg = document.createElement("td");
 
-// verifica que el arreglo no este vacio (exista)
-const stock_existe = (arreglo) => arreglo.length > 0;
+        fila.dataset.id = prod.codigo;
+        tdCod.textContent = prod.codigo;
+        tdNom.textContent = prod.nombre;
+        tdPrc.textContent = prod.precio;
+        tdCant.textContent = prod.stock;
+        tdimg.innerHTML = `<img src="${prod.imagen}" alt="img" width="25" height="25">`;
 
-// verifica que se ingresa un numero
-const verificar_num = (num) => {
-    const numero = parseFloat(num);
-    return !isNaN(numero) && numero > 0;
-};
+        fila.append(tdCod, tdNom, tdCant, tdPrc, tdimg);
+        tbody.appendChild(fila);
 
-// verifica que se ingresa una cadena y no algo vacio
-const verificar_palabra = (cadena) => cadena.trim().length > 0;
-
-function pedir_dato(mensaje, validacion) {
-    let dato;
-    let valido = false;
-
-    do {
-        dato = prompt(mensaje);
-        valido = validacion(dato)
-    } while (!valido)
-    return dato;
+    })
 }
 
-//! cierre caja, falta terminar
-function cierre_caja() {
-    let cierre = Ventas.vendido - Ventas.efectivo - Ventas.transferencia;
-    let mensaje = (
-        "Vendido: \n" +
-        "\tTotal ventas = $" + Ventas.vendido + "\n" +
-        "\tTotal efectivo = $" + Ventas.efectivo + "\n" +
-        "\tTotal transferencia = $" + Ventas.transferencia + "\n");
+//! Crear tabla pagina ventas
+function tablaVentas(cajaBody) {
+    cajaBody.innerHTML = ""
 
-    if (cierre === 0) {
-        mensaje += "La caja cerro en 0";
-    }
-    else if (cierre > 0) {
-        mensaje += `Hay un faltante de $${cierre}`;
-    }
-    else {
-        mensaje += `Hay un sobrante de $${cierre}`;
-    }
-    alert(mensaje)
-}
+    Stock.forEach((prod) => {
+        const cajaProd = document.createElement("div");
+        cajaProd.className = "producto";
+        cajaProd.innerHTML =
+            `
+        <img src="${prod.imagen}" alt="${prod.nombre}">
+        <p>${prod.nombre}</p>
+        `;
 
-//! funciones opciones
-// Funcion 1 -agregar
-function agregar_producto() {
-    if (confirm("¿Desea agregar un nuevo producto?")) {
-
-        const nombre = pedir_dato("Ingrese el nombre del producto:", verificar_palabra);
-        const precio = parseFloat(pedir_dato(`Ingrese el precio de ${nombre} (solo números, decimales separados por punto):`, verificar_num));
-        const stock = parseInt(pedir_dato(`Ingrese el stock de ${nombre} (números enteros):`, verificar_num));
-        const codigo = Stock.length + 1;
-
-        const nuevo_producto = new Productos(codigo, nombre, precio, stock);
-        Stock.push(nuevo_producto);
-        alert("Producto agregado con éxito");
-    }
-}
-
-// funcion 2 eliminar
-function eliminar_producto() {
-    // se verifica si hay elementos en el stock
-    if (!stock_existe(Stock)) return alert("No existe stock aún.");
-
-    const cod = parseInt(pedir_dato("Ingrese el código del producto a eliminar:", verificar_num));
-    const producto = Stock.find(p => p.codigo === cod);
-
-    if (producto && producto.activo) {
-        producto.activo = false;
-        alert(`Producto ${producto.nombre} dado de baja.`);
-    }
-    else {
-        alert("Código no válido o producto ya inactivo.");
-    }
-}
-
-//funcion 3 vender
-function vender() {
-    if (!stock_existe(Stock)) return alert("No hay stock aún.");
-
-    visualizar();
-    //! se verifica el codigo ingresado y si esta activo
-    const codigo = parseInt(pedir_dato("Ingrese el código del producto a vender:", verificar_num));
-    const producto = Stock.find(p => p.codigo === codigo && p.activo);
-
-    if (!producto) return alert("Código no válido o producto inactivo.");
-
-    //! Se verifica si hay cantidad disponible
-    const cantidad = parseInt(pedir_dato("Ingrese la cantidad vendida:", verificar_num));
-    if (producto.stock < cantidad) {
-        return alert("Stock insuficiente.");
-    }
-
-    //! se verifica medio de pago solo 1 o 2
-    let medio_pago;
-    do {
-        medio_pago = parseInt(pedir_dato("Ingrese 1 - EFECTIVO / 2 - TRANSFERENCIA:", verificar_num));
-    } while (!(medio_pago === 1 || medio_pago === 2));
-
-    //! Ingreso de dinero
-    const ingreso = parseFloat(pedir_dato("Ingrese la cantidad abonada:", verificar_num));
-
-    // Registrar venta
-    // se establece el total + se resta al stock + se suma el arreglo ventas
-    const total = producto.precio * cantidad;
-    producto.stock -= cantidad;
-    Ventas.vendido += total;
-    if (medio_pago == 1) {
-        Ventas.efectivo += ingreso;
-    }
-    else {
-        Ventas.transferencia += ingreso;
-    }
-    alert(`Producto ${producto.nombre} vendido.`);
-}
-
-
-function cierre_diario() {
-
-}
-
-function visualizar() {
-    // si existe continuar
-    if (stock_existe(Stock)) {
-        let mensaje = "Productos en stock:\n\n";
-
-        // recorrer el arreglo, guardar en puntero p cada elemento del arreglo (cada producto)
-        for (let i = 0; i < Stock.length; i++) {
-            const p = Stock[i];
-
-            // Mostrar solo productos activos y agregar un mensaje general
-            if (p.activo) {
-                mensaje += `${i + 1}. Código: ${p.codigo} | Nombre: ${p.nombre} | Precio: $${p.precio} | Stock: ${p.stock}\n`;
-            }
+        if (prod.stock === 0) {
+            cajaBody.className += "prodDesactivado";
         }
 
-        alert(mensaje);
-    } 
-    else {
-        alert("No existe stock aún.");
-    }
+        cajaBody.appendChild(cajaProd);
+    })
 }
 
+//! VARIABLES USO GENERAl || No hace falta convertir valores
+// stock se inicializa vacio o se parsean si hay guardados
+let Stock = JSON.parse(localStorage.getItem("Stock")) || [];
 
-//! VARIABLES USO GENERAL/GLOBAL
-// stock se inicializa vacio, alli se cargan los productos nuevos
-const Stock = [];
+// ventas se inicializa si no existe
+let Ventas = JSON.parse(localStorage.getItem("Ventas")) || { ventas: 0, efectivo: 0, transferencia: 0 };
+// carrito para manejo de ventas
+let Carrito = [];
+// para pagina ventas
+let productosVendidos = JSON.parse(localStorage.getItem("productosVendidos")) || [];
+let flagApertura = false;
+
+// cuentas corrientes generales
+let cuentas_corrientes = JSON.parse(localStorage.getItem("C/C")) || [];
 
 // clase para crear nuevos productos que se ingresan al stock
-//! atributo activo es para eliminar productos temporales
 class Productos {
-    constructor(codigo, nombre, precio, cantidad, activo = true) {
+    constructor(codigo, nombre, precio, cantidad, imagen) {
         this.codigo = codigo
         this.nombre = nombre
         this.precio = precio
         this.stock = cantidad
-        this.activo = activo
+        this.imagen = imagen
     }
 }
 
-// objeto ventas donde se cargaran las transacciones diarias
-const Ventas = {
-    vendido: 0,
-    efectivo: 0,
-    transferencia: 0
+//! VERIFICAR / OPCIONAL
+document.querySelectorAll("#ir-a-seccion").forEach(btn => {
+    btn.addEventListener("click", () => {
+        //! Por cada click guardar los datos en formato JSON en StORAGE
+        localStorage.setItem("Stock", JSON.stringify(Stock));
+        localStorage.setItem("Ventas", JSON.stringify(Ventas));
+        localStorage.setItem("C/C", JSON.stringify(C / C));
+    })
+});
+
+//! SECCION 2 / PAGINA STOCK
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.querySelector("#tablaStock")) {
+
+        // BOTONES
+        const agregar = document.getElementById("btnAgregar");
+        const editar = document.getElementById("btnEditar");
+        const eliminar = document.getElementById("btnEliminar");
+        // MANEJO POPUP Y CARGA DE DATOS
+        const popup = document.getElementById("esconder-pop-up");
+        const cerrarPopup = document.getElementById("cerrarPopup");
+        const form = document.getElementById("formDatos");
+        // Tabla y cuerpo tabla // flag control boton
+        const tabla = document.querySelector("#tablaStock");
+        const tbody = document.querySelector("#tabla-productos")
+        // flags para los modos
+        let modoEdicion = false;
+        let prodEdicionIndex = null;
+        let modoEliminar = false;
+
+        crearTabla(tbody);
+
+        //! AGREGAR STOCK
+        agregar.addEventListener("click", () => {
+            popup.style.display = "flex";
+        });
+
+        cerrarPopup.addEventListener("click", () => {
+            popup.style.display = "none";
+            //! reiniciar flag
+            prodEdicionIndex = null;
+            form.reset();
+        });
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const nombre = form.elements["nombre"].value;
+            const precio = parseFloat(form.elements["precio"].value);
+            const cantidad = parseInt(form.elements["cantidad"].value);
+            const imagen = form.elements["imagen"].value;
+
+            // Nuevo producto
+            if (prodEdicionIndex === null) {
+                const cdg = Stock.length > 0 ? Stock[Stock.length - 1].codigo + 1 : 1;
+                const nuevo_producto = new Productos(cdg, nombre, precio, cantidad, imagen);
+                Stock.push(nuevo_producto);
+            }
+            // Editar producto
+            else {
+                Stock[prodEdicionIndex].nombre = nombre;
+                Stock[prodEdicionIndex].precio = precio;
+                Stock[prodEdicionIndex].stock = cantidad;
+                Stock[prodEdicionIndex].imagen = imagen;
+                //! Reseteo del flag
+                prodEdicionIndex = null;
+            }
+
+            localStorage.setItem("Stock", JSON.stringify(Stock));
+            //? Cerrar pop-up carga datos
+            crearTabla(tbody);
+            popup.style.display = "none";
+            form.reset();
+        });
+
+        //! ELIMINAR STOCK
+        eliminar.addEventListener("click", () => {
+            modoEliminar = !modoEliminar;
+            tabla.classList.toggle("editable", modoEliminar);
+            eliminar.textContent = modoEliminar ? "Terminar Edicion" : "Eliminar producto";
+        });
+
+        tbody.addEventListener("click", (elemento) => {
+            if ((!modoEliminar) && (!modoEdicion)) return;
+
+            const fila = elemento.target.closest("tr");
+            if (!fila) return;
+
+            if (modoEliminar) {
+                const id = Number(fila.dataset.id);
+                Stock = Stock.filter(prod => prod.codigo !== id);
+                localStorage.setItem("Stock", JSON.stringify(Stock));
+                crearTabla(tbody);
+            }
+            else if (modoEdicion) {
+                const id = Number(fila.dataset.id);
+                const index = Stock.findIndex(prod => prod.codigo === id);
+
+                if (index !== -1) {
+                    // establecer el elemento de busqueda para editarlo
+                    prodEdicionIndex = index;
+
+                    // Poner los valores en el form
+                    form.elements["nombre"].value = Stock[index].nombre;
+                    form.elements["precio"].value = Stock[index].precio;
+                    form.elements["cantidad"].value = Stock[index].stock;
+
+                    popup.style.display = "flex";
+                }
+            }
+        })
+
+        //! Editar stock
+        editar.addEventListener("click", () => {
+            modoEdicion = !modoEdicion;
+            tabla.classList.toggle("editable", modoEdicion);
+            editar.textContent = modoEdicion ? "Terminar Edicion" : "Editar producto";
+
+            if (!modoEdicion) {
+                //! reiniciar flag
+                prodEdicionIndex = null;
+                form.reset();
+            }
+        })
+    }
+})
+
+
+//! SECCION 3 / PAGINA VENTAS
+let cajaProductos = document.getElementById("caja-productos");
+tablaVentas(cajaProductos);
+
+let abrirCaja = document.getElementById("abrirCaja");
+let cerrarCaja = document.getElementById("cerrarCaja");
+let eliminar = document.getElementById("btnEliminarVenta");
+let cobrar = document.getElementById("btnCobrarVenta");
+let agregarCC = document.getElementById("btnAgregarVentaCC");
+let totalCarrito = document.getElementById("total-carrito");
+let total = 0;
+let tbodyCarrito = document.getElementById("tbodyCarrito");
+let totalVendido = document.getElementById("totalVendido");
+let totalEft = document.getElementById("totalEft");
+let totalTransf = document.getElementById("totalTransf");
+
+// apertura caja habilita transacciones
+funcionAbrirCaja();
+
+
+function funcionAbrirCaja() {
+    abrirCaja.addEventListener("click", () => {
+        cerrarCaja.classList.replace("botonInactivo", "botonActivo");
+        eliminar.classList.replace("botonInactivo", "botonActivo");
+        cobrar.classList.replace("botonInactivo", "botonActivo");
+        agregarCC.classList.replace("botonInactivo", "botonActivo");
+        abrirCaja.classList.replace("botonActivo", "botonInactivo");
+
+        //! se habilitan los event listener
+        eliminar.addEventListener("click", funcionEliminar);
+        cobrar.addEventListener("click", funcionCobrar);
+        agregarCC.addEventListener("click", funcionAgregarCC);
+        cerrarCaja.addEventListener("click", funcionCerrarCaja);
+
+        abrirCaja.removeEventListener("click", funcionAbrirCaja);
+
+        const productos = cajaProductos.querySelectorAll(".producto");
+        productos.forEach(prod => {
+            prod.addEventListener("click", funcionCarrito);
+        });
+    })
 };
 
-let opcion = -1;
-while (opcion !== 0) {
-    opcion = prompt("Ingrese la opcion deseada: \n0- Salir\n1- Agregar producto\n2- Eliminar producto\n3- Vender producto\n4- Cerrar caja\n5- Visualizar stock");
-    opcion = parseInt(opcion);
+function funcionCerrarCaja() {
+    // cierre caja deshabilita transacciones
+    cerrarCaja.classList.replace("botonActivo", "botonInactivo");
+    eliminar.classList.replace("botonActivo", "botonInactivo");
+    cobrar.classList.replace("botonActivo", "botonInactivo");
+    agregarCC.classList.replace("botonActivo", "botonInactivo");
+    abrirCaja.classList.replace("botonInactivo", "botonActivo");
 
-    switch (opcion) {
-        case 0:
-            alert("Hasta la vista");
-            break;
+    //! se deshabilitan los event listener
+    abrirCaja.addEventListener("click", funcionAbrirCaja);
+    eliminar.removeEventListener("click", funcionEliminar);
+    cobrar.removeEventListener("click", funcionCobrar);
+    agregarCC.removeEventListener("click", funcionAgregarCC);
+    cerrarCaja.removeEventListener("click", funcionCerrarCaja);
 
-        case 1:
-            agregar_producto();
-            break;
+    const productos = cajaProductos.querySelectorAll(".producto");
+    productos.forEach(prod => {
+        prod.removeEventListener("click", funcionCarrito);
+    });
 
-        case 2:
-            eliminar_producto();
-            break;
+    funcionEliminar();
+    //! agregar transferencia datos cierre caja
 
-        case 3:
-            vender();
-            break;
+};
 
-        case 4:
-            cierre_caja();
-            break;
+function funcionEliminar() {
+    //! Agregar sweet aler que diga carrito vaciado
+    //! agregar timer junto al SA
+    Carrito = []
+    tbodyCarrito.innerHTML = ``;
+    totalCarrito.innerText = `Total: $0`;
+    total = 0;
+};
 
-        case 5:
-            visualizar();
-            break;
+function funcionCobrar() {
 
-        default:
-            alert("Ingrese una opcion valida");
-    }
+    const popup = document.getElementById("esconder-pop-up-1");
+    const cerrarPopup = document.getElementById("cerrarPopup-1");
+    const form = document.getElementById("formDatos-1");
+    const totalCuenta = document.getElementById("total_cuenta");
+    const inputAbonado = form.elements["Abonado"];
+    const inputMedioPago = form.elements["medioPago"];
+    const vueltoSpan = document.getElementById("vuelto");
+
+    popup.style.display = "flex";
+    totalCuenta.innerText = `Total a pagar: $${total}`;
+    vueltoSpan.innerText = "";
+
+    cerrarPopup.addEventListener("click", () => {
+        popup.style.display = "none";
+        vueltoSpan.innerText = "";
+        //! reiniciar form
+        form.reset();
+    });
+
+    inputAbonado.addEventListener("input", () => {
+        const pagado = inputAbonado.value || 0;
+        if (pagado >= total) {
+            const vuelto = pagado - total;
+            vueltoSpan.innerText = `Vuelto: $${vuelto}`;
+        } else {
+            vueltoSpan.innerText = "";
+        }
+    });
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const medioPago = inputMedioPago.value;
+        const pagado = inputAbonado.value || 0;
+
+        if (pagado < total) {
+            alert("AAAAAAAA");
+            return;
+        }
+
+        if (medioPago === "Efectivo") {
+            Ventas.efectivo += total;
+        }
+        else {
+            Ventas.transferencia += total;
+        }
+        Ventas.ventas += total;
+        totalEft.innerText = `$${Ventas.efectivo}`;
+        totalTransf.innerText = `$${Ventas.transferencia}`;
+        totalVendido.innerText = `$${Ventas.ventas}`;
+
+        funcionEliminar();
+        popup.style.display = "none";
+        form.reset();
+        vueltoSpan.innerText = "";
+
+    });
 }
+
+function funcionAgregarCC() {
+
+    const popup = document.getElementById("esconder-pop-up-2");
+    const cerrarPopup = document.getElementById("cerrarPopup-2");
+    const form = document.getElementById("formDatos-2");
+
+    popup.style.display = "flex";
+
+    cerrarPopup.addEventListener("click", () => {
+        popup.style.display = "none";
+        //! reiniciar form
+        form.reset();
+    });
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nombre = form.elements["nombre"].value;
+
+        popup.style.display = "none";
+        form.reset();
+        const personaCC = {
+            nombre: nombre,
+            deudas: [...Carrito],
+            total: Carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0)
+        }
+
+        cuentas_corrientes.push(personaCC);
+        localStorage.setItem("C/C", JSON.stringify(cuentas_corrientes));
+
+        funcionEliminar();
+        //! Agregar SA
+    });
+
+};
+
+
+function funcionCarrito(e) {
+    // obtenemos el nombre desde el <p> dentro del producto
+    const nombre = e.currentTarget.querySelector("p").textContent;
+
+    // buscamos el producto en el stock (siempre estará)
+    const prod = Stock.find(item => item.nombre === nombre);
+
+    // buscamos si ya está en el carrito
+    const prodCarrito = Carrito.find(item => item.nombre === nombre);
+
+    if (prodCarrito) {
+        // si ya existe en el carrito → sumar cantidad
+        prodCarrito.cantidad += 1;
+        const fila = document.querySelector(`tr[data-nombre='${nombre}']`);
+        fila.querySelector(".cantidad").textContent = prodCarrito.cantidad;
+
+    } else {
+        // si no está → lo agregamos
+        Carrito.push({
+            nombre: prod.nombre,
+            precio: prod.precio,
+            cantidad: 1
+        });
+        // crear nueva fila
+        const fila = document.createElement("tr");
+        fila.dataset.nombre = prod.nombre; // para identificar la fila
+
+        fila.innerHTML = `
+            <td>${prod.nombre}</td>
+            <td>$${prod.precio}</td>
+            <td class="cantidad">1</td>
+        `;
+
+        tbodyCarrito.appendChild(fila);
+    }
+
+    total += prod.precio;
+    totalCarrito.textContent = `Total: $${total}`;
+
+
+};

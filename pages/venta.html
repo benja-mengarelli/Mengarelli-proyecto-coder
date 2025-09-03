@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/estilo.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 id="titulo-principal">STOCK-EAME</h1>
+            <!--? Agregar un inicio de sesion y sumar nombre arriba! -->
+            <span id="alertas-estado">BIENVENIDO</span>
+            <button><a href="../index.html">Volver al inicio</a></button>
+        </div>
+    </header>
+
+    <!--? venta diaria -->
+    <!--! Agregar opcion de abrir caja incluyendo fecha/dia -->
+    <!--! agregar boton de cierre (guardar todo en una seccion para registro) y apertura -->
+    <!--! al hacer cierre restar cuentas corrientes y crear flag -->
+    <section id="seccion-3" class="secciones">
+        <div class="s3-izq">
+            <h2>Total diario</h2>
+            <table>
+                <tr>
+                    <td>Vendido:</td>
+                    <td id="totalVendido"></td>
+                </tr>
+                <tr>
+                    <td>Efectivo:</td>
+                    <td id="totalEft"></td>
+                </tr>
+                <tr>
+                    <td>Transferencia:</td>
+                    <td id="totalTransf"></td>
+                </tr>
+                <!--! agregar tambien visualizacion y cantidades movidas -->
+            </table>
+
+            <table id="visualizarVendido">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad vendida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Panel central -->
+        <div class="s3-centro">
+
+            <div id="esconder-pop-up-1" class="esconder-pop-up">
+                <div class="popup">
+                    <button class="close-btn" id="cerrarPopup-1">✖</button>
+                    <h2>Cobrar cuenta</h2>
+                    <span id="total_cuenta"></span> <br><br>
+                    <form id="formDatos-1">
+                        <label>Abonado:</label>
+                        <input type="number" name="Abonado" required min="1" max="10000000">
+                        <span id="vuelto"></span><br>
+                        <label>Medio de pago</label>
+                        <select name="medioPago" required>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta/Transferencia">Tarjeta/Transferencia</option>
+                        </select><br><br>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="esconder-pop-up-2" class="esconder-pop-up">
+                <div class="popup">
+                    <button class="close-btn" id="cerrarPopup-2">✖</button>
+                    <h2>Nombre Cuenta Corriente</h2>
+                    <form id="formDatos-2">
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre" required minlength="3"><br><br>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="caja-productos" class="productos-grid">
+                <!-- Se rellena con los productos en stock-->
+            </div>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s3-der">
+            <h3>Carrito</h3>
+            <div class="carrito">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>precio</th>
+                            <th>Cant.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyCarrito">
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="total-carrito">Total: $0</div>
+            <div>
+                <button id="abrirCaja" class="botonActivo">Abrir caja!</button>
+                <button id="cerrarCaja" class="botonInactivo">Cerrar caja!</button>
+            </div>
+            <button id="btnEliminarVenta" class="botonInactivo">Eliminar</button>
+            <button id="btnCobrarVenta" class="botonInactivo">Cobrar</button>
+            <button id="btnAgregarVentaCC" class="botonInactivo">Agregar a C/C</button>
+        </div>
+
+    </section>
+
+    <script src="../JS/main.js" defer></script>
+</body>
+
+</html>

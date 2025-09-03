@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/estilo.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 id="titulo-principal">STOCK-EAME</h1>
+            <!--? Agregar un inicio de sesion y sumar nombre arriba! -->
+            <span id="alertas-estado">BIENVENIDO</span>
+            <button><a href="../index.html">Volver al inicio</a></button>
+        </div>
+    </header>
+
+    <!--? visualizacion + manejo stocl (agregar, eliminar, editar)-->
+    <!--! Agregar opciones de ordenado, por nombre, stock, codigo, etc-->
+    <section id="seccion-2" class="secciones">
+        <div class="s2-izq">
+            <h2>Editar Stock</h2>
+
+            <button id="btnAgregar">Agregar stock</button>
+            <button id="btnEditar">Editar stock</button>
+            <button id="btnEliminar">Eliminar stock</button>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s2-der">
+
+            <div id="esconder-pop-up" class="esconder-pop-up">
+                <div class="popup">
+                    <button class="close-btn" id="cerrarPopup">✖</button>
+                    <h2>Cargar Datos</h2>
+                    <form id="formDatos">
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre" required minlength="3"><br><br>
+                        <label>Precio:</label>
+                        <!--! convertir a float -->
+                        <input type="number" name="precio" required min="1" max="10000000"><br><br>
+                        <label>Cantidad:</label>
+                        <input type="number" name="cantidad" required min="1" max="9999"><br><br>
+                        <label>Logo:</label>
+                        <select name="imagen" required>
+                            <option value="../imagenes/img1.png">Comida</option>
+                            <option value="../imagenes/img2.png">Bebida</option>
+                            <option value="../imagenes/img3.png">Alcohol</option>
+                            <option value="../imagenes/img4.png">Bombas</option>
+                            <option value="../imagenes/img5.png">Pururu</option>
+                        </select>
+
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+            <!--! convertir a div y agregar opcion de busqueda-->
+            <h2>Stock Actual</h2>
+            <table id="tablaStock">
+                <thead id="cambiar-orden-tabla">
+                    <tr>
+                        <th id="cod">Código</th>
+                        <th id="nom">Nombre</th>
+                        <th id="cant">Cantidad</th>
+                        <th id="prc">Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-productos">
+                    <!-- Aca se inicializan los productos cargados -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script src="../JS/main.js" defer></script>
+
+</body>
+
+</html>

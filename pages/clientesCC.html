@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/estilo.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 id="titulo-principal">STOCK-EAME</h1>
+            <!--? Agregar un inicio de sesion y sumar nombre arriba! -->
+            <span id="alertas-estado">BIENVENIDO</span>
+            <button><a href="../index.html">Volver al inicio</a></button>
+        </div>
+    </header>
+
+    <!--! quitar el boton de eliminar -->
+    <section id="seccion-4" class="secciones">
+        <div class="s4-izq">
+            <h2>Cuentas Corrientes</h2>
+            <button>Agregar</button>
+            <button>Eliminar</button>
+            <button>Cobrar</button>
+            <button>Editar</button>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="s4-der">
+            <h2>Listado de cuentas</h2>
+            <div class="cuentas-container">
+                <!-- Ejemplo de cuenta corriente -->
+                <div class="cuenta">
+                    <h3>Juan Pérez</h3>
+                    <div class="productos">
+                        <p>Producto A - 2 unidades</p>
+                        <p>Producto B - 1 unidad</p>
+                    </div>
+                    <div class="total">Total: $300</div>
+                </div>
+
+                <div class="cuenta">
+                    <h3>María Gómez</h3>
+                    <div class="productos">
+                        <p>Producto X - 5 unidades</p>
+                        <p>Producto Y - 2 unidades</p>
+                    </div>
+                    <div class="total">Total: $750</div>
+                </div>
+
+                <div class="cuenta">
+                    <h3>Carlos Díaz</h3>
+                    <div class="productos">
+                        <p>Producto C - 1 unidad</p>
+                        <p>Producto D - 3 unidades</p>
+                    </div>
+                    <div class="total">Total: $420</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../JS/main.js" defer></script>
+</body>
+
+</html>
